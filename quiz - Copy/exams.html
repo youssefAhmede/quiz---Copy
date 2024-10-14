@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exams</title>
+    <!-- إضافة Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+        margin: 0;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 5px;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    #exam-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .exam-item {
+        position: relative;
+        cursor: pointer;
+        margin: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 20px;
+        padding-bottom: 50px;
+        min-width: 110px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s, transform 0.3s;
+    }
+    
+    .exam-item:hover {
+        background-color: #f1f1f1;
+        transform: translateY(-5px);
+    }
+    
+    .delete-btn {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 3px;
+        display: flex;
+        /**/align-items: center;
+        gap: 5px;
+    }
+
+    .delete-btn:hover {
+        background-color: #c82333;
+    }
+    .edit-btn {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 3px;
+        display: flex;
+        /**/align-items: center;
+        gap: 5px;
+        
+    }
+
+    .edit-btn:hover {
+        background-color: #0056b3;
+    }
+    #exam-container {
+        margin-top: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    #exam-container.hide {
+        display: none;
+    }
+
+    h2 {
+        margin-top: 0;
+    }
+    </style>
+</head>
+<body>
+    <h1>Exams</h1>
+
+    <div id="exam-list"></div>
+    <button onclick="createNewExam()">createNewExam</button>
+    <div id="exam-container" class="hide"></div>
+
+    <script>
+        function createNewExam() {
+            window.location.href = "creatExam.html";
+        }
+
+        window.onload = function() {
+            const exams = JSON.parse(localStorage.getItem('exams')) || [];
+            const examList = document.getElementById('exam-list');
+            const examContainer = document.getElementById('exam-container');
+            
+            function renderExamList() {
+                examList.innerHTML = '';
+                exams.forEach((exam, index) => {
+                    const examDiv = document.createElement('div');
+                    examDiv.classList.add('exam-item');
+                    
+                    const deleteBtn = document.createElement('button');
+                    const editBtn = document.createElement('button');
+                    const tryBtn = document.createElement('button');
+
+                    deleteBtn.innerHTML = '<i class="fas fa-trash-alt"> del </i>';
+                    deleteBtn.classList.add('delete-btn');
+                    editBtn.innerHTML = '<i>edit</i>';
+                    editBtn.classList.add('edit-btn');
+                    tryBtn.innerHTML = '<i>try</i>';
+                    tryBtn.classList.add('try-btn');
+
+                    deleteBtn.onclick = function(event) {
+                        event.stopPropagation();
+                        if (confirm('هل أنت متأكد أنك تريد الحذف؟')) {
+                            deleteExam(index);
+                        }
+                    };
+                    editBtn.onclick = function(event) {
+                        event.stopPropagation();
+                        const exam = exams[index];
+                        localStorage.setItem('editExam', JSON.stringify(exam));
+                        window.location.href = 'editExam.html';
+                    };
+                    tryBtn.onclick = function(event) {
+                        event.stopPropagation();
+                        const exam = exams[index];
+                        let time = exam.examTime;
+                        let name = exam.subjectName; // اسم المادة
+                        const quizArray = exam.questions.map((q, i) => ({
+                            id: `${i}`,
+                            mark: q.mark,
+                            question: q.question,
+                            options: [q.option1, q.option2, q.option3, q.option4],
+                            correct: q.correct
+                        }));
+                    
+                        const dataToSend = {
+                            time: time,
+                            name: name,
+                            quizArray: quizArray
+                        };
+                    
+                        const queryString = `?time=${time}&name=${name}&quizArray=${JSON.stringify(quizArray)}`;
+                        fetch(`Quiz.html${queryString}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.text();
+                        })
+                        .then(data => {
+                            console.log('Success:', data);
+                            // إعادة توجيه المستخدم إلى صفحة Quiz.html بعد نجاح الطلب
+                            window.location.href = `Quiz.html${queryString}`;
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            // يمكنك إضافة رسالة خطأ هنا أو إجراءات إضافية
+                        });
+                    };
+                        
+                    
+                    
+                    examDiv.textContent = exam.subjectName;
+                    examDiv.appendChild(deleteBtn);
+                    examDiv.appendChild(editBtn);
+                    examDiv.appendChild(tryBtn);
+
+                    examDiv.onclick = function() {
+                        displayExam(index);
+                    };
+                    
+                    examList.appendChild(examDiv);
+                });
+            }
+
+            function displayExam(index) {
+                const exam = exams[index];
+                let examHTML = `
+                    <div>
+                        <h2>${exam.subjectName}</h2>
+                        <p>Exam Grade: ${exam.examGrade}</p>
+                        ${exam.examTime ? `<p>Exam Time: ${exam.examTime} minutes</p>` : ''}
+                        ${exam.questions.map(q => `
+                            <div>
+                                <h3>${q.question}</h3>
+                                <p>Mark: ${q.mark}</p>
+                                <ul>
+                                    ${q.options.map(opt => `<li>${opt}</li>`).join('')}
+                                </ul>
+                                <p>Correct Answer: ${q.correct}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                examContainer.innerHTML = examHTML;
+                examContainer.classList.remove('hide');
+            }
+
+            function deleteExam(index) {
+                exams.splice(index, 1);
+                localStorage.setItem('exams', JSON.stringify(exams));
+                renderExamList();
+            }
+
+            renderExamList();
+        };
+    </script>
+</body>
+
+</html>

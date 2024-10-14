@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <!-- <link href="ideas.png"> -->
+    <!-- <link href="question.png"> -->
+    <!-- <link href="Time.png"> -->
+    <!-- <link href="brain.png"> -->
+    
+    <title>Quiz</title>
+ 
+    <link rel="stylesheet" href="Quiz.css">
+    <!-- <link rel="stylesheet" href="brain2.css">s -->
+    
+    
+
+
+
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="container">
+            <a href="#" class="logo">MyWebsite</a>
+            <nav class="nav-links">
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="hamburger-menu">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+    </header>
+
+    <div class="start-div">
+        <!-- <button class="make-button"  style="margin: 10px;">make exam</button> -->
+        
+        <button class="start-button" onclick="start()">Start</button>
+        <!-- <p>{{ exam.question_mark }}<p> -->
+        
+    </div>
+    
+    <script>
+        // تعريف المصفوفة quizArray باستخدام قوالب Django
+        const quizArray = [
+            
+                {
+                    id: "0",
+                    mark: 2,
+                    question: "{{ exam.question }}",
+                    options: ["{{ exam.option1 }}", "{{ exam.option2 }}", "{{ exam.option3 }}", "{{ exam.option4 }}"],
+                    correct: "{{ exam.option1 }}"
+                },
+            
+        ];
+    </script>
+
+    <div id="Exam">
+        <div class="Exam-nav">
+            <div class="number-of-count">
+                <span class="numberOfQuestion">رقم السؤال</span>
+            </div>
+            <div class="timer-div">
+                <img src="Time.png"width="20px" alt="" />
+                <span class="time-left">900s</span>
+            </div>
+            
+
+        </div>
+
+        <div id="Exam-mid">
+                    <!-- questions -->
+                    <!-- <label for="Q" class="Q" id="Q">Who won in football?</label>
+                    <div>
+                        <input type="radio" id="option1" name="Q" value="team1">
+                        <label for="option1">Team 1</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="option2" name="Q" value="team2">
+                        <label for="option2">Team 2</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="option3" name="Q" value="team3">
+                        <label for="option3">Team 3</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="option4" name="Q" value="team4">
+                        <label for="option4">Team 4</label>
+                    </div> -->
+                    
+        </div>
+        <button id="next-button" >Next</button>
+        <button class="hide" id="finsh">finsh</button>
+    </div>
+
+    <div class="lll">
+        <div class="score-div">
+            <div id="score"> 99.99 %</div>
+            <button id="restart">Restart</button>
+        </div>
+        <div class="review"></div>
+    </div>
+    
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section about">
+                    <h2>About Us</h2>
+                    <p>We are a company dedicated to providing the best services in the education.</p>
+                </div>
+                <div class="footer-section links">
+                    <h2>Quick Links</h2>
+                    <ul>
+                        <li><a href="exams.html">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section contact">
+                    <h2>Contact Us</h2>
+                    <p>Email: ya798317@gmail.com</p>
+                    <p>Phone: 01116406161</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2024 MyWebsite | Designed by Youssef Ahmed
+            </div>
+        </div>
+    </footer>
+    <script src="Quiz.js" defer></script>
+    <!-- <script src="quizLoader.js" defer></script> -->
+<!-- <script src="brain2.js"></script> -->
+</body>
+</html>
+
+

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Exam</title>
+    <link rel="stylesheet" href="creatExam.css">
+</head>
+<body>
+    
+    <div class="yy">
+        <div id="side-bar1" class="side-bar hide" >
+            <div id="exam" class="center hide">
+                <label for="inputNumber">ادخل عدد الاسئلة</label>
+                <input class="bignumber" type="number" id="inputNumber" placeholder="Enter number of questions">
+                <button class="btn" onclick="start()">Start</button>
+            </div>
+        </div>
+        <div id="side-bar2" class="side-bar hide">
+            <label for="subjectName">اسم المادة</label>
+            <input type="text" id="subjectName" name="subjectName" placeholder="Enter subject name">
+            <br><br>
+            <label for="examGrade">كم درجات هذا الامتحان؟</label>
+            <input class="numberOfDegree" id="examGrade" type="number" name="examGrade">
+            <br><br>
+            <label>هل كل الأسئلة نفس الدرجة؟</label><br>
+            <input type="radio" name="sameGrade" id="sameGradeYes" onchange="allMark(true)">
+            <label for="sameGradeYes">yes</label>
+            <input type="radio" name="sameGrade" id="sameGradeNo" onchange="allMark(false)">
+            <label for="sameGradeNo">no</label>
+            <br><br>
+            <div class="timeP">
+                <label>هل ترغب في إضافة وقت للامتحان؟</label><br>
+                <input type="radio" name="examTime" id="examTimeYes" onchange="showTimeOptions(true)">
+                <label for="examTimeYes">yes</label>
+                <input type="radio" name="examTime" id="examTimeNo" onchange="showTimeOptions(false)">
+                <label for="examTimeNo">no</label>
+                <br><br>
+            </div>
+            <div class="timeOptions hide">
+                <input type="number" id="examTimeMinutes" class="time" placeholder="الوقت بالدقائق"> m
+                <br><br>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="creat" class="center">
+            <button class="btn" onclick="showInput()">Create Exam</button>
+        </div>
+        <div id="questions" class="questions hide"></div>
+        <button id="addQuestionButton" class="btn hide" onclick="addQuestion()">Add Question</button>
+        <button id="submit" class="submit hide" onclick="submit()">Submit</button>
+    </div>
+    <script src="creatExam.js"></script>
+</body>
+</html>
+<!-- 
+باسورد الامتحان ام الامتجان عام
+
+هل عند دخول الطالب الامتحان يجب كتابة اسمه وكوده
+هل عند دخول الطالب الامتحان يجب كتابة اسمه فقط
+هل عند دخول الطالب الامتحان يجب كتابة كوده فقط
+
+متي يبدأ الامتحان  #الان 
+اخر موعد لدخول الامتحان #فاي وقت يستطيع الطالب دخول الامتحان #نصف ساعة من بدا الامتحان
+
+
+-->
